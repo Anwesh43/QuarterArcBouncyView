@@ -17,11 +17,11 @@ val nodes : Int =  5
 val sizeFactor : Float = 2.9f
 val parts : Int = 4
 val strokeFactor : Int  = 90
-val rFactor : Float = 4f
+val rFactor : Float = 2.8f
 val foreColor : Int = Color.parseColor("#f44336")
 val backColor : Int = Color.parseColor("#BDBDBD")
-val scGap : Float = 0.02f
-val delay : Long = 30
+val scGap : Float = 0.01f
+val delay : Long = 45
 val fullDeg : Float = 360f
 
 fun Int.inverse() : Float = 1f / this
@@ -39,11 +39,17 @@ fun Canvas.drawArcLine(i : Int, size : Float, scale : Float, paint : Paint) {
     save()
     rotate(deg * i)
     save()
-    rotate(deg * sf)
+    rotate(-deg * sf)
     drawLine(0f, 0f, size, 0f, paint)
     restore()
     drawArc(RectF(-r, -r, r, r), fullDeg - deg, deg * scf, true, paint)
     restore()
+}
+
+fun Canvas.drawArcLines(size : Float, scale : Float, paint : Paint) {
+    for (j in 0..(parts - 1)) {
+        drawArcLine(j, size, scale, paint)
+    }
 }
 
 fun Canvas.drawABNode(i : Int, scale : Float, paint : Paint) {
@@ -56,7 +62,7 @@ fun Canvas.drawABNode(i : Int, scale : Float, paint : Paint) {
     paint.strokeWidth = Math.min(w, h) / strokeFactor
     save()
     translate(w / 2, gap * (i + 1))
-    drawArcLine(i, size, scale, paint)
+    drawArcLines(size, scale, paint)
     restore()
 }
 
