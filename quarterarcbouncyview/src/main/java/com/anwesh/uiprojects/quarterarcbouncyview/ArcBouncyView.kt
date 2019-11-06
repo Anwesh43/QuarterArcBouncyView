@@ -190,4 +190,26 @@ class ArcBouncyView(ctx : Context) : View(ctx) {
             curr.startUpdating(cb)
         }
     }
+
+    data class Renderer(var view : ArcBouncyView) {
+
+        private val animator : Animator = Animator(view)
+        private val qba : QuarterBouncyArc = QuarterBouncyArc(0)
+
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(backColor)
+            qba.draw(canvas, paint)
+            animator.animate {
+                qba.update {
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            qba.startUpdating {
+                animator.start()
+            }
+        }
+    }
 }
