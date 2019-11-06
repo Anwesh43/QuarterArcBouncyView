@@ -213,4 +213,13 @@ class ArcBouncyView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    companion object {
+
+        fun create(activity : Activity) : ArcBouncyView {
+            val view : ArcBouncyView = ArcBouncyView(activity)
+            activity.setContentView(view)
+            return view
+        }
+    }
 }
